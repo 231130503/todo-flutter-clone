@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "861385729386",
+    "project_id": "todo-flutter-clone",
+    "storage_bucket": "todo-flutter-clone.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861385729386:android:ea9da3f6c65dc6e9947113",
+        "android_client_info": {
+          "package_name": "com.example.flutter_app_tugas3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKiiXNYX7i-0O2S4rCJfy8IAS7pHni_y4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861385729386:android:7904469bc4b874f8947113",
+        "android_client_info": {
+          "package_name": "com.example.todo_flutter_clone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKiiXNYX7i-0O2S4rCJfy8IAS7pHni_y4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
