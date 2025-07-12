@@ -7,6 +7,7 @@ import 'important_screen.dart';
 import 'planned_screen.dart';
 import 'add_task_screen.dart';
 import 'edit_task_screen.dart';
+import 'login_screen.dart'; // ✅ Tambahkan ini
 import '../widgets/task_tile.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -73,11 +74,10 @@ class HomeScreen extends StatelessWidget {
                 '$importantCount',
                 style: const TextStyle(color: Colors.white),
               ),
-              onTap:
-                  () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const ImportantScreen()),
-                  ),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ImportantScreen()),
+              ),
             ),
             ListTile(
               leading: const Icon(Icons.calendar_today, color: Colors.white),
@@ -89,11 +89,10 @@ class HomeScreen extends StatelessWidget {
                 '$plannedCount',
                 style: const TextStyle(color: Colors.white),
               ),
-              onTap:
-                  () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const PlannedScreen()),
-                  ),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const PlannedScreen()),
+              ),
             ),
           ],
         ),
@@ -103,7 +102,7 @@ class HomeScreen extends StatelessWidget {
         elevation: 0,
         iconTheme: const IconThemeData(
           color: Colors.white,
-        ), // ✅ Ikon drawer putih
+        ),
         title: const Text(
           'To Do',
           style: TextStyle(
@@ -119,78 +118,84 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+                (route) => false,
+              );
+            },
+          ),
+        ],
       ),
       body: Stack(
         children: [
-          // ✅ Background image
           Positioned.fill(
             child: Image.asset('assets/background.jpg', fit: BoxFit.cover),
           ),
-
-          // ✅ Overlay gelap untuk kontras teks
           Positioned.fill(
             child: Container(color: Colors.black.withOpacity(0.6)),
           ),
-
-          // ✅ Konten daftar tugas
           taskProvider.tasks.isEmpty
               ? const Center(
-                child: Text(
-                  'Belum ada tugas.\nTekan + untuk menambahkan',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    shadows: [
-                      Shadow(
-                        color: Colors.black,
-                        offset: Offset(1, 1),
-                        blurRadius: 2,
-                      ),
-                    ],
-                  ),
-                ),
-              )
-              : ListView.builder(
-                padding: const EdgeInsets.only(
-                  top: kToolbarHeight + 32,
-                  left: 16,
-                  right: 16,
-                  bottom: 80,
-                ),
-                itemCount: taskProvider.tasks.length,
-                itemBuilder: (context, index) {
-                  final task = taskProvider.tasks[index];
-                  return TaskTile(
-                    task: task,
-                    onTap: () {
-                      taskProvider.toggleTask(
-                        FirebaseAuth.instance.currentUser!.uid,
-                        task,
-                      );
-                    },
-                    onLongPress: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => EditTaskScreen(task: task),
+                  child: Text(
+                    'Belum ada tugas.\nTekan + untuk menambahkan',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black,
+                          offset: Offset(1, 1),
+                          blurRadius: 2,
                         ),
-                      );
-                    },
-                  );
-                },
-              ),
+                      ],
+                    ),
+                  ),
+                )
+              : ListView.builder(
+                  padding: const EdgeInsets.only(
+                    top: kToolbarHeight + 32,
+                    left: 16,
+                    right: 16,
+                    bottom: 80,
+                  ),
+                  itemCount: taskProvider.tasks.length,
+                  itemBuilder: (context, index) {
+                    final task = taskProvider.tasks[index];
+                    return TaskTile(
+                      task: task,
+                      onTap: () {
+                        taskProvider.toggleTask(
+                          FirebaseAuth.instance.currentUser!.uid,
+                          task,
+                        );
+                      },
+                      onLongPress: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => EditTaskScreen(task: task),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.pinkAccent,
         child: const Icon(Icons.add),
-        onPressed:
-            () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const AddTaskScreen()),
-            ),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const AddTaskScreen()),
+        ),
       ),
     );
   }
